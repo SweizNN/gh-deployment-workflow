@@ -7,4 +7,4 @@ RUN echo "merhaba kaptan"
 COPY index.html /usr/share/nginx/html/index.html
 
 # Konteynerin 80 portundan yayın yapacağını belirtiyoruz
-EXPOSE 80
+EXPOSE 81
