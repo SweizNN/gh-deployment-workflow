@@ -30,4 +30,4 @@ jobs:
           push: true
           # İmajın adını belirliyoruz. Tüm harfler küçük olmalı!
           # Örnek etiket: ghcr.io/kullaniciadin/gh-deployment-workflow:latest
-          tags: ghcr.io/sweiznn/gh-deployment-workflow:latest
+          tags: sweiznn/gh-deployment-workflow
