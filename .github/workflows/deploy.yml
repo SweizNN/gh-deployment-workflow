@@ -1,39 +1,44 @@
 name: Deploy to GitHub Pages
 
-# 1. TETİKLEYİCİ: Bu sistem ne zaman çalışsın?
+# Workflow'u hangi olayların tetikleyeceğini belirliyoruz
 on:
   push:
     branches:
-      - main          # Sadece main dalına push yapıldığında
+      - main
+    # SADECE index.html değiştiğinde tetikle (Proje gereksinimi)
     paths:
-      - 'index.html'  # Roadmap Görevi: Sadece index.html dosyası değiştiyse çalışsın!
+      - 'index.html'
 
-# 2. İZİNLER: Action'ın siteyi yayınlayabilmesi için gereken yetkiler
+# GitHub Pages'e yazma yetkisi vermek için gerekli izinler
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 3. İŞLER (JOBS): Yapılacak görevlerin listesi
+# Aynı anda birden fazla deployment çakışmasını önler
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }} # Başarılı olursa sitenin linkini çıktı olarak verir
-    runs-on: ubuntu-latest # GitHub'ın arka planda açacağı sanal Linux sunucusu
-    
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Kodu Çek (Checkout)
+      - name: Checkout repo
         uses: actions/checkout@v4
-        
-      - name: GitHub Pages'i Ayarla
-        uses: actions/configure-pages@v4
-        
-      - name: Dosyaları Yüklemeye Hazırla (Artifact)
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Tüm dizini paketler
-          
-      - name: Sayfayı Yayına Al (Deploy)
+          # Root dizini (bulunduğumuz dizin) yükle
+          path: '.'
+      
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
