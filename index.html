@@ -1,85 +1,44 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sürekli Dağıtım | Test</title>
-    <style>
-        /* Genel sayfa ayarları ve koyu tema arka planı */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        /* Ortadaki cam görünümlü (Glassmorphism) kutu */
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 50px 70px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Renk geçişli başlık */
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            background: -webkit-linear-gradient(#4facfe, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Alt metinler */
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #d1d1d1;
-            margin-bottom: 10px;
-        }
-
-        /* Başarı rozeti */
-        .badge {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 25px;
-            background-color: #00b09b;
-            background: linear-gradient(to right, #00b09b, #96c93d);
-            color: white;
-            border-radius: 50px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        /* Rozet için ufak bir animasyon */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-    </style>
+    <title>Pomodoro Timer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <h1>🚀 Hello, GitHub Actions!</h1>
-        <p>Bu site Docker ve AWS EC2 üzerinden...</p>
-        <p><strong>tamamen otomatik</strong> olarak dağıtılmıştır.</p>
-        <div class="badge">PIPELINE BAŞARILI</div>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen font-sans">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-4xl font-bold mb-4">Pomodoro Timer</h1>
+        <div class="text-8xl font-bold mb-8" id="timer">25:00</div>
+        <div class="flex justify-center space-x-4">
+            <button id="start-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Start</button>
+            <button id="stop-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Stop</button>
+            <button id="reset-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Reset</button>
+        </div>
+        <div class="mt-8">
+            <p class="text-lg">Session Type: <span id="session-type" class="font-bold">Work</span></p>
+            <p class="text-lg">Completed Sessions: <span id="completed-sessions" class="font-bold">0</span></p>
+        </div>
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold mb-4">Settings</h2>
+            <div class="flex justify-center space-x-4">
+                <div>
+                    <label for="work-duration">Work (min):</label>
+                    <input type="number" id="work-duration" class="bg-gray-700 text-white p-2 rounded w-20" value="25">
+                </div>
+                <div>
+                    <label for="short-break">Short Break (min):</label>
+                    <input type="number" id="short-break" class="bg-gray-700 text-white p-2 rounded w-20" value="5">
+                </div>
+                <div>
+                    <label for="long-break">Long Break (min):</label>
+                    <input type="number" id="long-break" class="bg-gray-700 text-white p-2 rounded w-20" value="15">
+                </div>
+            </div>
+        </div>
     </div>
+    <audio id="alarm-sound" src="https://www.soundjay.com/buttons/sounds/button-1.mp3" preload="auto"></audio>
+    <script src="script.js"></script>
 </body>
 </html>
