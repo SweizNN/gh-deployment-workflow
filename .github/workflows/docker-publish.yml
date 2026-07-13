@@ -51,4 +51,4 @@ jobs:
             docker pull ghcr.io/sweiznn/gh-deployment-workflow:latest
             
             # Yeni imajı 80 portunda arka planda çalıştır
-            docker run -d --name web-site -p 80:80 ghcr.io/sweiznn/gh-deployment-workflow:latest
+            docker run -d --name web-site -p 9090:80 ghcr.io/sweiznn/gh-deployment-workflow:latest
