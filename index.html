@@ -2,10 +2,84 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>GitHub Actions Projesi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sürekli Dağıtım | Test</title>
+    <style>
+        /* Genel sayfa ayarları ve koyu tema arka planı */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Ortadaki cam görünümlü (Glassmorphism) kutu */
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px 70px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Renk geçişli başlık */
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: -webkit-linear-gradient(#4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Alt metinler */
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #d1d1d1;
+            margin-bottom: 10px;
+        }
+
+        /* Başarı rozeti */
+        .badge {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background-color: #00b09b;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        /* Rozet için ufak bir animasyon */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, GitHub Actions!</h1>
-    <p>Bu site tamamen otomatik olarak dağıtılmıştır. TEST</p>
+    <div class="container">
+        <h1>🚀 Hello, GitHub Actions!</h1>
+        <p>Bu site Docker ve AWS EC2 üzerinden...</p>
+        <p><strong>tamamen otomatik</strong> olarak dağıtılmıştır.</p>
+        <div class="badge">PIPELINE BAŞARILI</div>
+    </div>
 </body>
 </html>
