@@ -30,5 +30,25 @@ jobs:
           context: .
           push: true
           # İmajın adını belirliyoruz. Tüm harfler küçük olmalı!
-          # Örnek etiket: ghcr.io/kullaniciadin/gh-deployment-workflow:latest
           tags: ghcr.io/sweiznn/gh-deployment-workflow:latest
+
+  deploy-to-ec2:
+    needs: build   # Burası ilk baştaki 'build:' adımıyla tamamen aynı yapıldı
+    runs-on: ubuntu-latest
+    steps:
+      - name: EC2'ye Bağlan ve Deploy Et
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Çalışan eski container'ı durdur ve sil (İlk kurulumda hata vermemesi için || true ekliyoruz)
+            docker stop web-site || true
+            docker rm web-site || true
+            
+            # Güncellenmiş en yeni imajı indir
+            docker pull ghcr.io/sweiznn/gh-deployment-workflow:latest
+            
+            # Yeni imajı 80 portunda arka planda çalıştır
+            docker run -d --name web-site -p 80:80 ghcr.io/sweiznn/gh-deployment-workflow:latest
