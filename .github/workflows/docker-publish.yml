@@ -10,8 +10,28 @@ permissions:
   contents: read
   id-token: write
 
+# 1. AŞAMA: Kodun Test Edilmesi
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu Klonla
+        uses: actions/checkout@v4
+
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Bağımlılıkları Yükle
+        run: npm install --if-present
+
+      - name: Testleri Çalıştır
+        run: npm test
+
+  # 2. AŞAMA: Docker İmajının Derlenmesi
   build:
+    needs: test   # DİKKAT: Bu adımın çalışması için 'test' adımının BAŞARILI olması şarttır!
     runs-on: ubuntu-latest
     steps:
       - name: Kodu Klonla
@@ -32,8 +52,9 @@ jobs:
           # İmajın adını belirliyoruz. Tüm harfler küçük olmalı!
           tags: ghcr.io/sweiznn/gh-deployment-workflow:latest
 
+  # 3. AŞAMA: AWS EC2'ye Dağıtım
   deploy-to-ec2:
-    needs: build   # Burası ilk baştaki 'build:' adımıyla tamamen aynı yapıldı
+    needs: build   # Bu adımın çalışması için 'build' adımının BAŞARILI olması şarttır!
     runs-on: ubuntu-latest
     steps:
       - name: EC2'ye Bağlan ve Deploy Et
@@ -50,5 +71,5 @@ jobs:
             # Güncellenmiş en yeni imajı indir
             docker pull ghcr.io/sweiznn/gh-deployment-workflow:latest
             
-            # Yeni imajı 80 portunda arka planda çalıştır
+            # Yeni imajı 9090 portunda arka planda çalıştır
             docker run -d --name web-site -p 9090:80 ghcr.io/sweiznn/gh-deployment-workflow:latest
